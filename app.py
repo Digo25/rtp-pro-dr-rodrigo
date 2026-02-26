@@ -45,3 +45,26 @@ if menu == "📋 Avaliação Completa":
 
     if st.button("💾 Salvar avaliação completa"):
         st.success("Avaliação completa salva!")
+        
+        # ====== VERSÃO PROFISSIONAL ======
+
+st.markdown("---")
+st.header("📊 Resultado Profissional")
+
+if st.button("📈 Gerar Resultado"):
+    score = (10 - dor) + forca
+
+    if score >= 15:
+        resultado = "🟢 Excelente evolução funcional"
+    elif score >= 10:
+        resultado = "🟡 Evolução moderada — continuar tratamento"
+    else:
+        resultado = "🔴 Atenção — necessidade de intervenção intensiva"
+
+    st.success(resultado)
+
+    st.markdown("### 🧾 Resumo da Avaliação")
+    st.write("Paciente:", nome)
+    st.write("Dor:", dor)
+    st.write("Força:", forca)
+    st.write("Observações:", obs)
