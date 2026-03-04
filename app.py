@@ -745,11 +745,12 @@ elif menu == "Relatórios":
         prev = db_get_last_assessment(patient["id"], chosen["assessment_type"], exclude_id=chosen["id"])
         comp = build_comparison(prev, chosen) if prev else None
         pdf = generate_report_pdf(patient, chosen, comp)
-        st.download_button(
-            "📄 Baixar PDF",
-            data=pdf,
-            file_name=f"RTPPRO_{patient['full_name']}_{chosen['assessment_date']}_{chosen['assessment_type']}.pdf",
-            mime="application/pdf"
+       st.download_button(
+    "📄 Baixar PDF",
+    data=pdf,
+    file_name=f"RTPPRO_{patient['full_name']}_{chosen['assessment_date']}.pdf",
+    mime="application/pdf"
+)
 import os
 import io
 import json
