@@ -746,7 +746,7 @@ elif menu == "Relatórios":
         comp = build_comparison(prev, chosen) if prev else None
         pdf = generate_report_pdf(patient, chosen, comp)
        st.download_button(
-    "📄 Baixar PDF",
+    "Baixar PDF",
     data=pdf,
     file_name=f"RTPPRO_{patient['full_name']}_{chosen['assessment_date']}.pdf",
     mime="application/pdf"
