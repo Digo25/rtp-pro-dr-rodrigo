@@ -756,7 +756,6 @@ prev = db_get_last_assessment(
 comp = build_comparison(prev, chosen) if prev else None
 
 pdf = generate_report_pdf(patient, chosen, comp)
-
 st.download_button(
     "Baixar PDF",
     data=pdf,
