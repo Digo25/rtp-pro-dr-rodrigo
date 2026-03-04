@@ -750,7 +750,7 @@ elif menu == "Relatórios":
             data=pdf,
             file_name=f"RTPPRO_{patient['full_name']}_{chosen['assessment_date']}_{chosen['assessment_type']}.pdf",
             mime="application/pdf"
-        )import os
+import os
 import io
 import json
 from datetime import date, datetime
