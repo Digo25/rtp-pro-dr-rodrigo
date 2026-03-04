@@ -2,6 +2,7 @@ streamlit
 supabase
 pandas
 numpy
-Pillow
+pillow
 reportlab
 python-dotenv
+python-dateutil
