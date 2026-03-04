@@ -740,10 +740,21 @@ elif menu == "Relatórios":
         st.info("Sem avaliações ainda.")
     else:
         labels = [f"{x['assessment_date']} | {x['assessment_type']} | {x['id'][:8]}" for x in items]
-        idx = st.selectbox("Escolha uma avaliação para gerar PDF novamente", list(range(len(labels))), format_func=lambda i: labels[i])
-       chosen = items[idx]
-prev = db_get_last_assessment(patient["id"], chosen["assessment_type"], exclude_id=chosen["id"])
+        idx = st.selectbox(
+    "Escolha uma avaliação para gerar PDF novamente",
+    list(range(len(items)))
+)
+
+chosen = items[idx]
+
+prev = db_get_last_assessment(
+    patient["id"],
+    chosen["assessment_type"],
+    exclude_id=chosen["id"]
+)
+
 comp = build_comparison(prev, chosen) if prev else None
+
 pdf = generate_report_pdf(patient, chosen, comp)
 
 st.download_button(
