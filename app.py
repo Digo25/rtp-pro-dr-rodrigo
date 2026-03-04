@@ -740,7 +740,7 @@ elif menu == "Relatórios":
         st.info("Sem avaliações ainda.")
     else:
         labels = [f"{x['assessment_date']} | {x['assessment_type']} | {x['id'][:8]}" for x in items]
-        idx = st.selectbox(
+idx = st.selectbox(
     "Escolha uma avaliação para gerar PDF novamente",
     list(range(len(items)))
 )
