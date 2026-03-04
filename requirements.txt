@@ -1,7 +1,5 @@
-streamlit
-supabase
-pandas
-numpy
-reportlab
-python-dotenv
-python-dateutil
+streamlit==1.55.0
+supabase==2.28.0
+pandas==2.2.2
+reportlab==4.2.5
+python-dateutil==2.9.0.post0
