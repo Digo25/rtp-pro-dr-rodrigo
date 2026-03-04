@@ -1,0 +1,7 @@
+streamlit
+supabase
+pandas
+numpy
+Pillow
+reportlab
+python-dotenv
