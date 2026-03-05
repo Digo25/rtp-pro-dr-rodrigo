@@ -18,7 +18,10 @@ from supabase import create_client
 import httpx
 
 SUPABASE_URL = st.secrets.get("SUPABASE_URL", "")
-SUPABASE_ANON_KEY = st.secrets.get("SUPABASE_ANON_KEY", "")
+SUPABASE_ANON_KEY = (
+    st.secrets.get("SUPABASE_ANON_KEY", "") 
+    or st.secrets.get("SUPABASE_KEY", "")
+)
 
 if not SUPABASE_URL or not SUPABASE_ANON_KEY:
     st.error("Erro: faltam SUPABASE_URL ou SUPABASE_ANON_KEY no Secrets.")
