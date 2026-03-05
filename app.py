@@ -17,25 +17,46 @@ import streamlit as st
 from supabase import create_client
 import httpx
 
-SUPABASE_URL = st.secrets.get("SUPABASE_URL", "")
-SUPABASE_ANON_KEY = (
-    st.secrets.get("SUPABASE_ANON_KEY", "") 
-    or st.secrets.get("SUPABASE_KEY", "")
-)
+import streamlit as st
+from supabase import create_client
+import httpx
+
+def get_secret(name: str) -> str:
+    # lê do st.secrets e garante string limpa
+    v = st.secrets.get(name, "")
+    if v is None:
+        return ""
+    return str(v).strip().strip('"').strip("'")
+
+SUPABASE_URL = get_secret("SUPABASE_URL")
+SUPABASE_ANON_KEY = get_secret("SUPABASE_ANON_KEY")
 
 if not SUPABASE_URL or not SUPABASE_ANON_KEY:
     st.error("Erro: faltam SUPABASE_URL ou SUPABASE_ANON_KEY no Secrets.")
     st.stop()
 
+# normaliza URL (remove barra final e espaços)
+SUPABASE_URL = SUPABASE_URL.replace(" ", "").rstrip("/")
+
+# 🔎 TESTE DE CONECTIVIDADE (mostra o erro real)
 try:
-    r = httpx.get(f"{SUPABASE_URL}/rest/v1/", timeout=10)
-    st.caption(f"Supabase conectado (HTTP {r.status_code})")
+    # bater no endpoint de health do Supabase (simples e rápido)
+    health_url = f"{SUPABASE_URL}/auth/v1/health"
+    r = httpx.get(health_url, timeout=10.0, headers={"apikey": SUPABASE_ANON_KEY})
+    # qualquer resposta HTTP (200/401/404) significa que resolveu DNS e conectou
 except Exception as e:
-    st.error("Não consegui conectar no Supabase.")
+    st.error("Não consegui conectar no Supabase (rede/DNS/URL).")
     st.code(str(e))
+    st.info("Cheque se o SUPABASE_URL está 100% correto (sem caracteres invisíveis) e se começa com https://")
     st.stop()
 
-supabase = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+# ✅ CRIA O CLIENTE
+try:
+    supabase = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+except Exception as e:
+    st.error("Falha ao inicializar Supabase client.")
+    st.code(str(e))
+    st.stop()
 
 # =========================
 # REFERÊNCIAS (EDITÁVEIS)
