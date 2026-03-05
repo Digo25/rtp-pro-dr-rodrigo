@@ -13,13 +13,26 @@ st.set_page_config(page_title="RTP PRO – Avaliação Completa (Consultório)",
 
 def clamp(x, a=0, b=100):
     return max(a, min(b, x))
+import streamlit as st
+from supabase import create_client
+import httpx
 
-# =========================
-# SUPABASE
-# =========================
-SUPABASE_URL = st.secrets["SUPABASE_URL"]
-SUPABASE_SERVICE_ROLE = st.secrets["SUPABASE_SERVICE_ROLE"]
-supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE)
+SUPABASE_URL = st.secrets.get("SUPABASE_URL", "")
+SUPABASE_ANON_KEY = st.secrets.get("SUPABASE_ANON_KEY", "")
+
+if not SUPABASE_URL or not SUPABASE_ANON_KEY:
+    st.error("Erro: faltam SUPABASE_URL ou SUPABASE_ANON_KEY no Secrets.")
+    st.stop()
+
+try:
+    r = httpx.get(f"{SUPABASE_URL}/rest/v1/", timeout=10)
+    st.caption(f"Supabase conectado (HTTP {r.status_code})")
+except Exception as e:
+    st.error("Não consegui conectar no Supabase.")
+    st.code(str(e))
+    st.stop()
+
+supabase = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 # =========================
 # REFERÊNCIAS (EDITÁVEIS)
